@@ -1,44 +1,15 @@
-## Setup
+# ANN-DL — Gabriel Gerner Maggion
 
-Para utilizar o código deste repositório, siga as instruções a seguir:
+Portfólio da disciplina Artificial Neural Networks and Deep Learning do Insper
+(2026.2), publicado com MkDocs Material e GitHub Pages.
 
-Crie um ambiente virtual do Python:
+## Reproduzir o exercício de dados
 
-``` shell
-python3 -m venv env
+```bash
+python -m pip install -r requirements.txt
+python docs/exercises/data/code/analysis.py
+python -m mkdocs serve
 ```
 
-Ative o ambiente virtual (**você deve fazer isso sempre que for executar algum script deste repositório**):
-
-``` shell
-source ./env/bin/activate
-```
-
-Instale as dependências com:
-
-``` shell
-python3 -m pip install -r requirements.txt --upgrade
-```
-
-## Deployment
-
-O material utiliza o [mkdocs](https://www.mkdocs.org/) para gerar a documentação. Para visualizar a documentação, execute o comando:
-
-``` shell
-mkdocs serve -o
-```
-
-Para subir ao GitHub Pages, execute o comando:
-
-``` shell
-mkdocs gh-deploy
-```
-
-
-## Notebooks
-
-Para subir notebooks no mkdocs, podemos utilizar a biblioteca do [mkdocs-jupyter](https://github.com/danielfrg/mkdocs-jupyter).
-
-Instalação, utilização e exemplos podem ser vistos na [documentação oficial](https://github.com/danielfrg/mkdocs-jupyter).
-
-O arquivo `mkdocs.yml` tem anotações nos nós modificados de exemplo.
+O relatório está em `docs/exercises/data/index.md`; as fontes, figuras e o
+arquivo de dados estão nas subpastas `code/`, `figures/` e `data/`.
