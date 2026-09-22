@@ -11,3 +11,4 @@ atividades da disciplina.
 ## Entregas
 
 - [Exercício 1 — Dados](exercises/data/index.md)
+- [Exercício 2 — Perceptron](exercises/perceptron/index.md)
