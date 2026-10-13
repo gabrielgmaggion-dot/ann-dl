@@ -1,0 +1,1759 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Gabriel Gerner Maggion">
+      
+      
+        <link rel="canonical" href="https://gabrielgmaggion-dot.github.io/ann-dl/exercises/mlp/">
+      
+      
+        <link rel="prev" href="../perceptron/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3. MLP - Gabriel Gerner Maggion | ANN-DL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mlp-multi-layer-perceptrons" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Gabriel Gerner Maggion | ANN-DL" class="md-header__button md-logo" aria-label="Gabriel Gerner Maggion | ANN-DL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gabriel Gerner Maggion | ANN-DL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. MLP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gabrielgmaggion-dot/ann-dl" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gabrielgmaggion-dot/ann-dl
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Gabriel Gerner Maggion | ANN-DL" class="md-nav__button md-logo" aria-label="Gabriel Gerner Maggion | ANN-DL" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gabriel Gerner Maggion | ANN-DL
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gabrielgmaggion-dot/ann-dl" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gabrielgmaggion-dot/ann-dl
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercícios
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Exercícios
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../perceptron/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Perceptron
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. MLP
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. MLP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-forward-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Forward pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-backward-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Backward pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-parameter-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Parameter update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generate-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Generate the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-establish-the-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Establish the baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-implement-the-mlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Implement the MLP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generate-the-data_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Generate the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-adapt-the-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Adapt the network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-train-and-evaluate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Train and evaluate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-analysis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-train-the-deeper-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Train the deeper network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-compare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Compare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-forward-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Forward pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-backward-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Backward pass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-parameter-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Parameter update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generate-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Generate the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-establish-the-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Establish the baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-implement-the-mlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Implement the MLP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-generate-the-data_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Generate the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-adapt-the-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Adapt the network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-train-and-evaluate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Train and evaluate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d-analysis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise 4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercise 4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-train-the-deeper-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Train the deeper network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-compare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — Compare
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C — Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mlp-multi-layer-perceptrons">MLP — Multi-Layer Perceptrons</h1>
+<p><strong>Gabriel Gerner Maggion · Insper · Artificial Neural Networks and Deep Learning · 2026.2</strong><br />
+<strong>Data:</strong> 13 de outubro de 2026.</p>
+<p>O objetivo é entender como a camada oculta modifica as regiões de decisão e verificar o efeito de aumentar a profundidade. As redes foram implementadas em NumPy, incluindo ativações, perdas, propagação, gradientes e atualização. Os números abaixo são resultados das execuções, sem selecionar sementes pelo desempenho no teste.</p>
+<p><strong>Fontes:</strong> <a href="https://insper.github.io/ann-dl/2026.2/exercises/mlp/">enunciado da atividade</a> e <a href="https://insper.github.io/ann-dl/2026.2/exercises/submission/">formato de entrega</a>, consultados em 13/10/2026. <strong>Uso de IA:</strong> OpenAI ChatGPT/Codex participou da resolução, código, verificações, figuras, redação e publicação, conforme declarado no campo <code>ai_use</code>.</p>
+<p><strong>Reprodução:</strong> na raiz do repositório, executar:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>docs/exercises/mlp/code/requirements.txt
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>docs/exercises/mlp/code/mlp.py
+</code></pre></div>
+<p>O script recria as seis figuras, <a href="code/results.json">os resultados numéricos</a> e <a href="code/seed_comparison.csv">a comparação das sementes</a>. Ambiente usado: Python 3.12.14, NumPy 2.3.5, pandas 2.2.3, Matplotlib 3.10.8 e scikit-learn 1.8.0. Existe um único gerador <code>rng = np.random.default_rng(42)</code>. Nas repetições pareadas do Exercício 4, seu estado é reiniciado com 42, 43 e 44; os dados e sua divisão permanecem fixos em 42. O mesmo objeto <code>rng</code> é passado a todas as redes.</p>
+<h2 id="exercise-1">Exercise 1</h2>
+<h3 id="a-forward-pass">A — Forward pass</h3>
+<p>Neste exercício, cada linha de <span class="arithmatex">\(W^{(1)}\)</span> corresponde a um neurônio oculto. Com <span class="arithmatex">\(x=[0.5,-0.2]^T\)</span> e <span class="arithmatex">\(y=1\)</span>, as pré-ativações são:</p>
+<div class="arithmatex">\[
+z_1^{(1)}=0.3(0.5)+(-0.1)(-0.2)+0.1
+=0.150000+0.020000+0.100000=0.270000,
+\]</div>
+<div class="arithmatex">\[
+z_2^{(1)}=0.2(0.5)+0.4(-0.2)-0.2
+=0.100000-0.080000-0.200000=-0.180000.
+\]</div>
+<p>Aplicando <span class="arithmatex">\(\tanh\)</span>:</p>
+<div class="arithmatex">\[
+h_1=\tanh(0.270000)=0.26362484,\qquad
+h_2=\tanh(-0.180000)=-0.17808087.
+\]</div>
+<p>Na saída:</p>
+<div class="arithmatex">\[
+u^{(2)}=0.5h_1-0.3h_2+0.2
+=0.13181242+0.05342426+0.20000000=0.38523668.
+\]</div>
+<div class="arithmatex">\[
+\hat y=\tanh(0.38523668)=0.36724656.
+\]</div>
+<p>Como existe uma única observação, não há fator adicional de média:</p>
+<div class="arithmatex">\[
+L=(1-0.36724656)^2=(-0.63275344)^2=\boxed{0.40037691}.
+\]</div>
+<h3 id="b-backward-pass">B — Backward pass</h3>
+<p>A regra da cadeia começa na perda. Não se usa o fator <span class="arithmatex">\(1/2\)</span>, pois ele não aparece no enunciado:</p>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial\hat y}=2(\hat y-y)
+=2(0.36724656-1)=-1.26550687.
+\]</div>
+<p>A derivada da ativação de saída é:</p>
+<div class="arithmatex">\[
+\frac{\partial\hat y}{\partial u^{(2)}}=1-\hat y^2
+=1-(0.36724656)^2=0.86512996.
+\]</div>
+<p>Logo, o delta da saída é:</p>
+<div class="arithmatex">\[
+\delta^{(2)}=\frac{\partial L}{\partial u^{(2)}}
+=(-1.26550687)(0.86512996)=\boxed{-1.09482791}.
+\]</div>
+<p><strong>Pesos e viés da saída.</strong> Como <span class="arithmatex">\(u^{(2)}=W^{(2)}h+b^{(2)}\)</span>:</p>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial W_1^{(2)}}=\delta^{(2)}h_1
+=(-1.09482791)(0.26362484)=-0.28862383,
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial W_2^{(2)}}=\delta^{(2)}h_2
+=(-1.09482791)(-0.17808087)=0.19496791,
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial b^{(2)}}=\delta^{(2)}=-1.09482791.
+\]</div>
+<p><strong>Gradientes que chegam às ativações ocultas.</strong> São usados os pesos antigos, antes de qualquer atualização:</p>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial h_1}=\delta^{(2)}W_1^{(2)}
+=(-1.09482791)(0.5)=-0.54741396,
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial h_2}=\delta^{(2)}W_2^{(2)}
+=(-1.09482791)(-0.3)=0.32844837.
+\]</div>
+<p>As derivadas das ativações ocultas são:</p>
+<div class="arithmatex">\[
+1-h_1^2=0.93050195,\qquad 1-h_2^2=0.96828720.
+\]</div>
+<p>Portanto:</p>
+<div class="arithmatex">\[
+\delta_1^{(1)}=\frac{\partial L}{\partial z_1^{(1)}}
+=(-0.54741396)(0.93050195)=-0.50936975,
+\]</div>
+<div class="arithmatex">\[
+\delta_2^{(1)}=\frac{\partial L}{\partial z_2^{(1)}}
+=(0.32844837)(0.96828720)=0.31803236.
+\]</div>
+<p><strong>Pesos e vieses ocultos.</strong> Para cada peso, <span class="arithmatex">\(\partial L/\partial W_{ij}^{(1)}=\delta_i^{(1)}x_j\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\frac{\partial L}{\partial W_{11}^{(1)}}&amp;=(-0.50936975)(0.5)=-0.25468488,\\
+\frac{\partial L}{\partial W_{12}^{(1)}}&amp;=(-0.50936975)(-0.2)=0.10187395,\\
+\frac{\partial L}{\partial W_{21}^{(1)}}&amp;=(0.31803236)(0.5)=0.15901618,\\
+\frac{\partial L}{\partial W_{22}^{(1)}}&amp;=(0.31803236)(-0.2)=-0.06360647.
+\end{aligned}
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial W^{(1)}}=
+\begin{bmatrix}-0.25468488&amp;0.10187395\\0.15901618&amp;-0.06360647\end{bmatrix},
+\qquad
+\frac{\partial L}{\partial b^{(1)}}=
+\begin{bmatrix}-0.50936975\\0.31803236\end{bmatrix}.
+\]</div>
+<h3 id="c-parameter-update">C — Parameter update</h3>
+<p>Cada parâmetro recebe <span class="arithmatex">\(\theta_{\mathrm{novo}}=\theta_{\mathrm{antigo}}-0.3\,\partial L/\partial\theta\)</span>. A tabela mostra todas as substituições. O texto do enunciado menciona oito parâmetros, mas os valores fornecidos contêm <strong>nove escalares</strong>: quatro pesos ocultos, dois vieses ocultos, dois pesos de saída e um viés de saída.</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Atualização com <span class="arithmatex">\(\eta=0.3\)</span></th>
+<th style="text-align: right;">Valor novo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(W_{11}^{(1)}\)</span></td>
+<td><span class="arithmatex">\(0.30000000-0.3(-0.25468488)\)</span></td>
+<td style="text-align: right;">0.37640546</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W_{12}^{(1)}\)</span></td>
+<td><span class="arithmatex">\(-0.10000000-0.3(0.10187395)\)</span></td>
+<td style="text-align: right;">-0.13056219</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W_{21}^{(1)}\)</span></td>
+<td><span class="arithmatex">\(0.20000000-0.3(0.15901618)\)</span></td>
+<td style="text-align: right;">0.15229515</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W_{22}^{(1)}\)</span></td>
+<td><span class="arithmatex">\(0.40000000-0.3(-0.06360647)\)</span></td>
+<td style="text-align: right;">0.41908194</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(b_1^{(1)}\)</span></td>
+<td><span class="arithmatex">\(0.10000000-0.3(-0.50936975)\)</span></td>
+<td style="text-align: right;">0.25281093</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(b_2^{(1)}\)</span></td>
+<td><span class="arithmatex">\(-0.20000000-0.3(0.31803236)\)</span></td>
+<td style="text-align: right;">-0.29540971</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W_1^{(2)}\)</span></td>
+<td><span class="arithmatex">\(0.50000000-0.3(-0.28862383)\)</span></td>
+<td style="text-align: right;">0.58658715</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W_2^{(2)}\)</span></td>
+<td><span class="arithmatex">\(-0.30000000-0.3(0.19496791)\)</span></td>
+<td style="text-align: right;">-0.35849037</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(b^{(2)}\)</span></td>
+<td><span class="arithmatex">\(0.20000000-0.3(-1.09482791)\)</span></td>
+<td style="text-align: right;">0.52844837</td>
+</tr>
+</tbody>
+</table>
+<p>Repetindo o cálculo com esses parâmetros:</p>
+<div class="arithmatex">\[
+z_{1,\mathrm{novo}}=0.37640546(0.5)+(-0.13056219)(-0.2)+0.25281093=0.46712609,
+\]</div>
+<div class="arithmatex">\[
+z_{2,\mathrm{novo}}=0.15229515(0.5)+0.41908194(-0.2)-0.29540971=-0.30307852,
+\]</div>
+<div class="arithmatex">\[
+h_{\mathrm{novo}}=[0.43587433,-0.29412735]^T,
+\]</div>
+<div class="arithmatex">\[
+u_{\mathrm{novo}}=0.58658715(0.43587433)-0.35849037(-0.29412735)+0.52844837
+=0.88956848,
+\]</div>
+<div class="arithmatex">\[
+\hat y_{\mathrm{novo}}=0.71118053,\qquad
+L_{\mathrm{novo}}=(1-0.71118053)^2=\boxed{0.08341669}.
+\]</div>
+<p>A perda <strong>cai de 0.40037691 para 0.08341669</strong> e a previsão se aproxima do alvo 1. O negativo do gradiente aponta a direção de redução local da perda; neste caso o passo de 0.3 efetivamente reduz o erro. Isso foi confirmado pela segunda propagação, pois uma taxa excessiva não garantiria redução em uma rede não linear. Os cálculos usam precisão completa; o arredondamento ocorre apenas na apresentação.</p>
+<h2 id="exercise-2">Exercise 2</h2>
+<h3 id="a-generate-the-data">A — Generate the data</h3>
+<p>Foram gerados 1.000 pontos com <code>make_blobs</code>: 500 ao redor de <span class="arithmatex">\((0,0)\)</span>, 250 ao redor de <span class="arithmatex">\((3,3)\)</span> e 250 ao redor de <span class="arithmatex">\((-3,-3)\)</span>, com desvio 1.2 e <code>random_state=42</code>. A classe 0 é o agrupamento central e a classe 1 reúne os dois extremos. A divisão estratificada 80/20 produz <strong>800 observações de treino (400 por classe)</strong> e <strong>200 de teste (100 por classe)</strong>.</p>
+<p>A Figura 1 mostra todos os pontos em suas coordenadas originais. Para treinar os modelos, cada atributo é padronizado por <span class="arithmatex">\(\tilde x_j=(x_j-\mu_j)/s_j\)</span>. A média e o desvio são calculados somente no treino e depois aplicados ao teste e à grade de decisão.</p>
+<p><img alt="Figura 1 — Pontos das duas classes e seus três agrupamentos." src="figures/fig1.svg" /></p>
+<h3 id="b-establish-the-baseline">B — Establish the baseline</h3>
+<p>A regressão logística utiliza os mesmos dados padronizados de treino, configuração padrão de regularização, <code>max_iter=2000</code> e <code>random_state=42</code>. Sua acurácia no teste foi <strong>47,50% (95/200)</strong>. Trata-se do baseline linear permitido pelo enunciado, não da implementação da MLP.</p>
+<h3 id="c-implement-the-mlp">C — Implement the MLP</h3>
+<p>A arquitetura escolhida foi <strong>2 → 8 → 1</strong>, com <strong>33 parâmetros</strong>, <code>tanh</code> na camada oculta e sigmoide na saída. Foram realizadas <strong>3.000 épocas</strong>, taxa <strong>0.1</strong>, gradiente descendente com todas as 800 observações em cada atualização, inicialização Xavier uniforme e vieses inicialmente iguais a zero. Não foram usados momentum, regularização, dropout ou parada antecipada.</p>
+<p>A acurácia no teste foi <strong>92,00% (184/200)</strong>. A entropia cruzada binária média caiu de <strong>0.70951841</strong> para <strong>0.11215330</strong> no treino. O limiar de classificação é 0.5.</p>
+<p><strong>Equações implementadas.</strong> No código, as observações ocupam as linhas; por isso <span class="arithmatex">\(W\)</span> tem formato entrada × saída, transposto em relação à convenção do Exercício 1. Para um lote de <span class="arithmatex">\(N\)</span> exemplos:</p>
+<div class="arithmatex">\[
+A^{(0)}=X,\qquad Z^{(l)}=A^{(l-1)}W^{(l)}+b^{(l)},\qquad
+A^{(l)}=\tanh(Z^{(l)})\quad\text{nas camadas ocultas}.
+\]</div>
+<p>Na saída binária, <span class="arithmatex">\(P=\sigma(Z^{(L)})\)</span> e:</p>
+<div class="arithmatex">\[
+\mathcal L=-\frac1N\sum_{i=1}^N[y_i\log p_i+(1-y_i)\log(1-p_i)].
+\]</div>
+<p>A regra da cadeia dá:</p>
+<div class="arithmatex">\[
+\frac{\partial\mathcal L}{\partial p_i}
+=\frac1N\left(-\frac{y_i}{p_i}+\frac{1-y_i}{1-p_i}\right),\qquad
+\frac{\partial p_i}{\partial z_i}=p_i(1-p_i),
+\]</div>
+<div class="arithmatex">\[
+\Delta^{(L)}=\frac{\partial\mathcal L}{\partial Z^{(L)}}=\frac{P-Y}{N}.
+\]</div>
+<p>Para qualquer camada, inclusive com várias camadas ocultas:</p>
+<div class="arithmatex">\[
+\frac{\partial\mathcal L}{\partial W^{(l)}}=(A^{(l-1)})^T\Delta^{(l)},\qquad
+\frac{\partial\mathcal L}{\partial b^{(l)}}=\sum_i\Delta_i^{(l)},
+\]</div>
+<div class="arithmatex">\[
+\Delta^{(l-1)}=
+\big[\Delta^{(l)}(W^{(l)})^T\big]\odot\big[1-(A^{(l-1)})^2\big].
+\]</div>
+<p>A atualização é <span class="arithmatex">\(W\leftarrow W-\eta\,\partial\mathcal L/\partial W\)</span> e <span class="arithmatex">\(b\leftarrow b-\eta\,\partial\mathcal L/\partial b\)</span>. Todos os gradientes são calculados antes de modificar os parâmetros. Para evitar problemas numéricos, a BCE é avaliada diretamente dos logits com <code>logaddexp</code>, sem alterar a fórmula de seu gradiente.</p>
+<p><img alt="Figura 2 — Evolução da perda de treino do classificador binário." src="figures/fig2.svg" /></p>
+<p><img alt="Figura 3 — Regiões previstas pela MLP e observações de teste." src="figures/fig3.svg" /></p>
+<p>As regiões coloridas representam a classe prevista; os pontos representam as classes verdadeiras do teste. A linha escura marca a probabilidade 0.5. A época 0 das curvas representa o modelo antes do treinamento, seguida pelas 3.000 atualizações.</p>
+<p><strong>Código executável e comentado — implementação única dos Exercícios 2, 3 e 4.</strong> <a href="code/mlp.py">Baixar <code>mlp.py</code></a>. O arquivo abaixo é incluído diretamente do código versionado. Os métodos <code>forward</code>, <code>backward</code> e <code>update</code> não são redefinidos entre os exercícios.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="sd">"""MLP do zero: execute este arquivo para reproduzir resultados e Figuras 1–6.</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="sd">O scikit-learn só gera/separa dados, calcula a matriz de confusão e fornece</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="sd">as regressões logísticas de referência expressamente permitidas no enunciado.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="sd">Forward, perdas, backpropagation e gradiente descendente usam somente NumPy.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="sd">"""</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"Agg"</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_blobs</span><span class="p">,</span> <span class="n">make_classification</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sklearn</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="n">ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="n">FIGURES</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">/</span> <span class="s2">"figures"</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>  <span class="c1"># Único Generator, passado a todas as redes.</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="n">COLORS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"#3368a8"</span><span class="p">,</span> <span class="s2">"#dd8039"</span><span class="p">,</span> <span class="s2">"#5c9983"</span><span class="p">]</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="k">class</span><span class="w"> </span><span class="nc">MLP</span><span class="p">:</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">    </span><span class="sd">"""Qualquer sequência de camadas; tanh nas ocultas e saída configurável."""</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_sizes</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="s2">"binary"</span><span class="p">):</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">layer_sizes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">)</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>        <span class="k">if</span> <span class="n">output</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"binary"</span><span class="p">,</span> <span class="s2">"multiclass"</span><span class="p">):</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Saída deve ser binary ou multiclass."</span><span class="p">)</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>        <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="s2">"binary"</span> <span class="ow">and</span> <span class="n">layer_sizes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Classificação binária requer uma saída."</span><span class="p">)</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">biases</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>        <span class="k">for</span> <span class="n">fan_in</span><span class="p">,</span> <span class="n">fan_out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layer_sizes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">layer_sizes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>            <span class="c1"># Xavier uniforme: escala adequada à tanh; vieses inicialmente zero.</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>            <span class="n">limit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">6.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">fan_in</span> <span class="o">+</span> <span class="n">fan_out</span><span class="p">))</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">limit</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="p">(</span><span class="n">fan_in</span><span class="p">,</span> <span class="n">fan_out</span><span class="p">)))</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">fan_out</span><span class="p">)))</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>        <span class="c1"># Formulação estável sem overflow, inclusive para logits extremos.</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>        <span class="n">positive</span> <span class="o">=</span> <span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>        <span class="n">result</span><span class="p">[</span><span class="n">positive</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="n">positive</span><span class="p">]))</span>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>        <span class="n">exp_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="o">~</span><span class="n">positive</span><span class="p">])</span>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>        <span class="n">result</span><span class="p">[</span><span class="o">~</span><span class="n">positive</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp_z</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">exp_z</span><span class="p">)</span>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>        <span class="k">return</span> <span class="n">result</span>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>        <span class="n">activations</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span>
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>        <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>            <span class="n">activations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">activations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">W</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>        <span class="n">logits</span> <span class="o">=</span> <span class="n">activations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">==</span> <span class="s2">"binary"</span><span class="p">:</span>
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>            <span class="n">probabilities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>            <span class="n">shifted</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>            <span class="n">exp_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">shifted</span><span class="p">)</span>
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>            <span class="n">probabilities</span> <span class="o">=</span> <span class="n">exp_z</span> <span class="o">/</span> <span class="n">exp_z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>        <span class="n">activations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>        <span class="k">return</span> <span class="n">probabilities</span><span class="p">,</span> <span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">logits</span><span class="p">)</span>
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">==</span> <span class="s2">"binary"</span><span class="p">:</span>
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>            <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_sizes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])[</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)]</span>
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">==</span> <span class="s2">"binary"</span><span class="p">:</span>
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>            <span class="c1"># BCE = log(1 + exp(z)) - y*z, calculada de modo estável.</span>
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logaddexp</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">logits</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">logits</span><span class="p">))</span>
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>        <span class="n">shifted</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>        <span class="n">log_probs</span> <span class="o">=</span> <span class="n">shifted</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">shifted</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span> <span class="o">*</span> <span class="n">log_probs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>        <span class="n">activations</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cache</span>
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>        <span class="c1"># Sigmoid+BCE e softmax+CCE possuem o mesmo delta: (P-Y)/N.</span>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">activations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>        <span class="n">dW</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">),</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">)</span>
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>            <span class="n">dW</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">=</span> <span class="n">activations</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">delta</span>
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>            <span class="n">db</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>            <span class="k">if</span> <span class="n">layer</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>                <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">delta</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">activations</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>        <span class="k">return</span> <span class="n">dW</span><span class="p">,</span> <span class="n">db</span>
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gradients</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">):</span>
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>        <span class="n">dW</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">gradients</span>
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>        <span class="c1"># Todos os gradientes já foram calculados com os parâmetros antigos.</span>
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)):</span>
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">dW</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span> <span class="o">-=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">db</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>        <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>        <span class="n">_</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>        <span class="n">history</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Y</span><span class="p">)]</span>  <span class="c1"># Época zero: antes das atualizações.</span>
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">learning_rate</span><span class="p">)</span>
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>            <span class="n">_</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">cache</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Y</span><span class="p">))</span>
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>        <span class="n">probabilities</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">==</span> <span class="s2">"binary"</span><span class="p">:</span>
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>            <span class="k">return</span> <span class="p">(</span><span class="n">probabilities</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>        <span class="k">return</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>    <span class="nd">@property</span>
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">parameter_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">))</span>
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a><span class="k">def</span><span class="w"> </span><span class="nf">reset_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a><span class="w">    </span><span class="sd">"""Reinicia o MESMO rng apenas para as repetições pareadas exigidas."""</span>
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>    <span class="n">rng</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PCG64</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">.</span><span class="n">state</span>
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a><span class="k">def</span><span class="w"> </span><span class="nf">standardize_train_test</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">):</span>
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a><span class="w">    </span><span class="sd">"""Estima média/desvio exclusivamente no treino, sem vazamento do teste."""</span>
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>    <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">X_train</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">X_train</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">X_test</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span>
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a><span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_true</span> <span class="o">==</span> <span class="n">y_pred</span><span class="p">))</span>
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a><span class="k">def</span><span class="w"> </span><span class="nf">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">FIGURES</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"fig</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">.svg"</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"Date"</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a><span class="k">def</span><span class="w"> </span><span class="nf">loss_figure</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">)),</span> <span class="n">history</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Treino — classes </span><span class="si">{</span><span class="n">classes</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Figura </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> — </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"Época (0 = inicial)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Entropia cruzada média"</span><span class="p">)</span>
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">)</span>
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>    <span class="n">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a><span class="k">def</span><span class="w"> </span><span class="nf">check_gradients</span><span class="p">():</span>
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a><span class="w">    </span><span class="sd">"""Diferenças centrais verificam todas as entradas em três redes pequenas."""</span>
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>    <span class="n">saved_state</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span>
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">.4</span><span class="p">],</span> <span class="p">[</span><span class="mf">.7</span><span class="p">,</span> <span class="mf">.3</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.8</span><span class="p">]])</span>
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>    <span class="n">checks</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>    <span class="k">for</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">"binary"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span>
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>                              <span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"multiclass"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])),</span>
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>                              <span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"multiclass"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))]:</span>
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>        <span class="n">Y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>        <span class="n">_</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a>        <span class="n">dW</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a>        <span class="n">max_error</span> <span class="o">=</span> <span class="mf">0.0</span>
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a>        <span class="k">for</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">gradient</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">weights</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">biases</span><span class="p">,</span> <span class="n">dW</span> <span class="o">+</span> <span class="n">db</span><span class="p">):</span>
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a>            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">parameter</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a>                <span class="n">original</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="mf">1e-6</span>
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>                <span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span> <span class="o">+</span> <span class="n">epsilon</span>
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a>                <span class="n">positive</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">Y</span><span class="p">)</span>
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a>                <span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span> <span class="o">-</span> <span class="n">epsilon</span>
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a>                <span class="n">negative</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">Y</span><span class="p">)</span>
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a>                <span class="n">parameter</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">original</span>
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a>                <span class="n">numerical</span> <span class="o">=</span> <span class="p">(</span><span class="n">positive</span> <span class="o">-</span> <span class="n">negative</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">)</span>
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a>                <span class="n">max_error</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_error</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">numerical</span> <span class="o">-</span> <span class="n">gradient</span><span class="p">[</span><span class="n">index</span><span class="p">]))</span>
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>        <span class="k">assert</span> <span class="n">max_error</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">max_error</span><span class="p">)</span>
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a>        <span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"architecture"</span><span class="p">:</span> <span class="n">sizes</span><span class="p">,</span> <span class="s2">"max_absolute_error"</span><span class="p">:</span> <span class="n">max_error</span><span class="p">})</span>
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a>    <span class="n">rng</span><span class="o">.</span><span class="n">bit_generator</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">saved_state</span>
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a>    <span class="k">return</span> <span class="n">checks</span>
+<a id="__codelineno-1-180" name="__codelineno-1-180" href="#__codelineno-1-180"></a>
+<a id="__codelineno-1-181" name="__codelineno-1-181" href="#__codelineno-1-181"></a>
+<a id="__codelineno-1-182" name="__codelineno-1-182" href="#__codelineno-1-182"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-1-183" name="__codelineno-1-183" href="#__codelineno-1-183"></a>    <span class="n">reset_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-184" name="__codelineno-1-184" href="#__codelineno-1-184"></a>    <span class="n">FIGURES</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-1-185" name="__codelineno-1-185" href="#__codelineno-1-185"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"font.size"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">"svg.fonttype"</span><span class="p">:</span> <span class="s2">"none"</span><span class="p">,</span> <span class="s2">"svg.hashsalt"</span><span class="p">:</span> <span class="s2">"mlp42"</span><span class="p">})</span>
+<a id="__codelineno-1-186" name="__codelineno-1-186" href="#__codelineno-1-186"></a>    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"versions"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"python"</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">(),</span> <span class="s2">"numpy"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+<a id="__codelineno-1-187" name="__codelineno-1-187" href="#__codelineno-1-187"></a>                           <span class="s2">"pandas"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span> <span class="s2">"matplotlib"</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span>
+<a id="__codelineno-1-188" name="__codelineno-1-188" href="#__codelineno-1-188"></a>                           <span class="s2">"scikit-learn"</span><span class="p">:</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">__version__</span><span class="p">},</span> <span class="s2">"gradient_checks"</span><span class="p">:</span> <span class="n">check_gradients</span><span class="p">()}</span>
+<a id="__codelineno-1-189" name="__codelineno-1-189" href="#__codelineno-1-189"></a>
+<a id="__codelineno-1-190" name="__codelineno-1-190" href="#__codelineno-1-190"></a>    <span class="c1"># Exercício 2: gerador e divisão exatamente como no enunciado.</span>
+<a id="__codelineno-1-191" name="__codelineno-1-191" href="#__codelineno-1-191"></a>    <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">3.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">]])</span>
+<a id="__codelineno-1-192" name="__codelineno-1-192" href="#__codelineno-1-192"></a>    <span class="n">X</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="p">[</span><span class="mi">500</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">250</span><span class="p">],</span> <span class="n">centers</span><span class="o">=</span><span class="n">centers</span><span class="p">,</span>
+<a id="__codelineno-1-193" name="__codelineno-1-193" href="#__codelineno-1-193"></a>                      <span class="n">cluster_std</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-194" name="__codelineno-1-194" href="#__codelineno-1-194"></a>    <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<a id="__codelineno-1-195" name="__codelineno-1-195" href="#__codelineno-1-195"></a>    <span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<a id="__codelineno-1-196" name="__codelineno-1-196" href="#__codelineno-1-196"></a>    <span class="n">Xtrs</span><span class="p">,</span> <span class="n">Xtes</span><span class="p">,</span> <span class="n">mean2</span><span class="p">,</span> <span class="n">std2</span> <span class="o">=</span> <span class="n">standardize_train_test</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span><span class="p">)</span>
+<a id="__codelineno-1-197" name="__codelineno-1-197" href="#__codelineno-1-197"></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a id="__codelineno-1-198" name="__codelineno-1-198" href="#__codelineno-1-198"></a>    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-1-199" name="__codelineno-1-199" href="#__codelineno-1-199"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.65</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="bp">cls</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Classe </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-1-200" name="__codelineno-1-200" href="#__codelineno-1-200"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Figura 1 — Dados binários: três agrupamentos"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"$x_1$"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<a id="__codelineno-1-201" name="__codelineno-1-201" href="#__codelineno-1-201"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-202" name="__codelineno-1-202" href="#__codelineno-1-202"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">.15</span><span class="p">)</span>
+<a id="__codelineno-1-203" name="__codelineno-1-203" href="#__codelineno-1-203"></a>    <span class="n">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-1-204" name="__codelineno-1-204" href="#__codelineno-1-204"></a>    <span class="n">baseline2</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrs</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<a id="__codelineno-1-205" name="__codelineno-1-205" href="#__codelineno-1-205"></a>    <span class="n">model2</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rng</span><span class="p">,</span> <span class="s2">"binary"</span><span class="p">)</span>
+<a id="__codelineno-1-206" name="__codelineno-1-206" href="#__codelineno-1-206"></a>    <span class="n">history2</span> <span class="o">=</span> <span class="n">model2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrs</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
+<a id="__codelineno-1-207" name="__codelineno-1-207" href="#__codelineno-1-207"></a>    <span class="n">pred2</span> <span class="o">=</span> <span class="n">model2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtes</span><span class="p">)</span>
+<a id="__codelineno-1-208" name="__codelineno-1-208" href="#__codelineno-1-208"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"exercise2"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"architecture"</span><span class="p">:</span> <span class="n">model2</span><span class="o">.</span><span class="n">layer_sizes</span><span class="p">,</span> <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="mf">.1</span><span class="p">,</span> <span class="s2">"epochs"</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
+<a id="__codelineno-1-209" name="__codelineno-1-209" href="#__codelineno-1-209"></a>                            <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">model2</span><span class="o">.</span><span class="n">parameter_count</span><span class="p">,</span> <span class="s2">"baseline_accuracy"</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">baseline2</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtes</span><span class="p">)),</span>
+<a id="__codelineno-1-210" name="__codelineno-1-210" href="#__codelineno-1-210"></a>                            <span class="s2">"test_accuracy"</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">pred2</span><span class="p">),</span> <span class="s2">"correct"</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">yte</span> <span class="o">==</span> <span class="n">pred2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+<a id="__codelineno-1-211" name="__codelineno-1-211" href="#__codelineno-1-211"></a>                            <span class="s2">"initial_loss"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">history2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"final_loss"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">history2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+<a id="__codelineno-1-212" name="__codelineno-1-212" href="#__codelineno-1-212"></a>                            <span class="s2">"train_class_counts"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">ytr</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="s2">"test_class_counts"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">yte</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()}</span>
+<a id="__codelineno-1-213" name="__codelineno-1-213" href="#__codelineno-1-213"></a>    <span class="n">loss_figure</span><span class="p">(</span><span class="n">history2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"Perda do MLP binário"</span><span class="p">,</span> <span class="s2">"0 e 1"</span><span class="p">)</span>
+<a id="__codelineno-1-214" name="__codelineno-1-214" href="#__codelineno-1-214"></a>    <span class="n">gx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">.5</span><span class="p">,</span> <span class="mi">320</span><span class="p">)</span>
+<a id="__codelineno-1-215" name="__codelineno-1-215" href="#__codelineno-1-215"></a>    <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">.5</span><span class="p">,</span> <span class="mi">320</span><span class="p">)</span>
+<a id="__codelineno-1-216" name="__codelineno-1-216" href="#__codelineno-1-216"></a>    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">)</span>
+<a id="__codelineno-1-217" name="__codelineno-1-217" href="#__codelineno-1-217"></a>    <span class="n">grid</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">)</span> <span class="o">/</span> <span class="n">std2</span>
+<a id="__codelineno-1-218" name="__codelineno-1-218" href="#__codelineno-1-218"></a>    <span class="n">probabilities</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model2</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+<a id="__codelineno-1-219" name="__codelineno-1-219" href="#__codelineno-1-219"></a>    <span class="n">zz</span> <span class="o">=</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<a id="__codelineno-1-220" name="__codelineno-1-220" href="#__codelineno-1-220"></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a id="__codelineno-1-221" name="__codelineno-1-221" href="#__codelineno-1-221"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span> <span class="o">&gt;=</span> <span class="mf">.5</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">COLORS</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.17</span><span class="p">)</span>
+<a id="__codelineno-1-222" name="__codelineno-1-222" href="#__codelineno-1-222"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="s2">"#303030"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
+<a id="__codelineno-1-223" name="__codelineno-1-223" href="#__codelineno-1-223"></a>    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-1-224" name="__codelineno-1-224" href="#__codelineno-1-224"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Xte</span><span class="p">[</span><span class="n">yte</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Xte</span><span class="p">[</span><span class="n">yte</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="bp">cls</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>
+<a id="__codelineno-1-225" name="__codelineno-1-225" href="#__codelineno-1-225"></a>                   <span class="n">edgecolors</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">.35</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Classe </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2"> — teste"</span><span class="p">)</span>
+<a id="__codelineno-1-226" name="__codelineno-1-226" href="#__codelineno-1-226"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Figura 3 — Fronteira do MLP e pontos de teste"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"$x_1$"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"$x_2$"</span><span class="p">)</span>
+<a id="__codelineno-1-227" name="__codelineno-1-227" href="#__codelineno-1-227"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-228" name="__codelineno-1-228" href="#__codelineno-1-228"></a>    <span class="n">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-1-229" name="__codelineno-1-229" href="#__codelineno-1-229"></a>
+<a id="__codelineno-1-230" name="__codelineno-1-230" href="#__codelineno-1-230"></a>    <span class="c1"># Exercícios 3 e 4: dados/split permanecem fixos nas três sementes de pesos.</span>
+<a id="__codelineno-1-231" name="__codelineno-1-231" href="#__codelineno-1-231"></a>    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<a id="__codelineno-1-232" name="__codelineno-1-232" href="#__codelineno-1-232"></a>                               <span class="n">n_redundant</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_repeated</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-1-233" name="__codelineno-1-233" href="#__codelineno-1-233"></a>                               <span class="n">n_clusters_per_class</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">class_sep</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-1-234" name="__codelineno-1-234" href="#__codelineno-1-234"></a>    <span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">yte</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<a id="__codelineno-1-235" name="__codelineno-1-235" href="#__codelineno-1-235"></a>    <span class="n">Xtrs</span><span class="p">,</span> <span class="n">Xtes</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">standardize_train_test</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">Xte</span><span class="p">)</span>
+<a id="__codelineno-1-236" name="__codelineno-1-236" href="#__codelineno-1-236"></a>    <span class="n">baseline3</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrs</span><span class="p">,</span> <span class="n">ytr</span><span class="p">)</span>
+<a id="__codelineno-1-237" name="__codelineno-1-237" href="#__codelineno-1-237"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"multiclass_data"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"train_class_counts"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">ytr</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+<a id="__codelineno-1-238" name="__codelineno-1-238" href="#__codelineno-1-238"></a>                                  <span class="s2">"test_class_counts"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">yte</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+<a id="__codelineno-1-239" name="__codelineno-1-239" href="#__codelineno-1-239"></a>                                  <span class="s2">"baseline_accuracy"</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">baseline3</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtes</span><span class="p">))}</span>
+<a id="__codelineno-1-240" name="__codelineno-1-240" href="#__codelineno-1-240"></a>    <span class="n">runs</span><span class="p">,</span> <span class="n">histories</span><span class="p">,</span> <span class="n">models</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">{},</span> <span class="p">{}</span>
+<a id="__codelineno-1-241" name="__codelineno-1-241" href="#__codelineno-1-241"></a>    <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">):</span>
+<a id="__codelineno-1-242" name="__codelineno-1-242" href="#__codelineno-1-242"></a>        <span class="k">for</span> <span class="n">exercise</span><span class="p">,</span> <span class="n">sizes</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">])]:</span>
+<a id="__codelineno-1-243" name="__codelineno-1-243" href="#__codelineno-1-243"></a>            <span class="n">reset_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<a id="__codelineno-1-244" name="__codelineno-1-244" href="#__codelineno-1-244"></a>            <span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="s2">"multiclass"</span><span class="p">)</span>
+<a id="__codelineno-1-245" name="__codelineno-1-245" href="#__codelineno-1-245"></a>            <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrs</span><span class="p">,</span> <span class="n">ytr</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
+<a id="__codelineno-1-246" name="__codelineno-1-246" href="#__codelineno-1-246"></a>            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtes</span><span class="p">)</span>
+<a id="__codelineno-1-247" name="__codelineno-1-247" href="#__codelineno-1-247"></a>            <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"exercise"</span><span class="p">:</span> <span class="n">exercise</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span> <span class="s2">"architecture"</span><span class="p">:</span> <span class="n">sizes</span><span class="p">,</span>
+<a id="__codelineno-1-248" name="__codelineno-1-248" href="#__codelineno-1-248"></a>                   <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">parameter_count</span><span class="p">,</span> <span class="s2">"epochs"</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="mf">.1</span><span class="p">,</span>
+<a id="__codelineno-1-249" name="__codelineno-1-249" href="#__codelineno-1-249"></a>                   <span class="s2">"initial_loss"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"final_loss"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+<a id="__codelineno-1-250" name="__codelineno-1-250" href="#__codelineno-1-250"></a>                   <span class="s2">"train_accuracy"</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">ytr</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtrs</span><span class="p">)),</span> <span class="s2">"test_accuracy"</span><span class="p">:</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">pred</span><span class="p">),</span>
+<a id="__codelineno-1-251" name="__codelineno-1-251" href="#__codelineno-1-251"></a>                   <span class="s2">"correct"</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">pred</span> <span class="o">==</span> <span class="n">yte</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())}</span>
+<a id="__codelineno-1-252" name="__codelineno-1-252" href="#__codelineno-1-252"></a>            <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<a id="__codelineno-1-253" name="__codelineno-1-253" href="#__codelineno-1-253"></a>            <span class="k">if</span> <span class="n">seed</span> <span class="o">==</span> <span class="mi">42</span><span class="p">:</span>
+<a id="__codelineno-1-254" name="__codelineno-1-254" href="#__codelineno-1-254"></a>                <span class="n">histories</span><span class="p">[</span><span class="n">exercise</span><span class="p">],</span> <span class="n">models</span><span class="p">[</span><span class="n">exercise</span><span class="p">]</span> <span class="o">=</span> <span class="n">history</span><span class="p">,</span> <span class="n">model</span>
+<a id="__codelineno-1-255" name="__codelineno-1-255" href="#__codelineno-1-255"></a>                <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">"exercise</span><span class="si">{</span><span class="n">exercise</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<a id="__codelineno-1-256" name="__codelineno-1-256" href="#__codelineno-1-256"></a>    <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">yte</span><span class="p">,</span> <span class="n">models</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtes</span><span class="p">),</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<a id="__codelineno-1-257" name="__codelineno-1-257" href="#__codelineno-1-257"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"exercise3"</span><span class="p">][</span><span class="s2">"confusion_matrix"</span><span class="p">]</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<a id="__codelineno-1-258" name="__codelineno-1-258" href="#__codelineno-1-258"></a>    <span class="n">pair_counts</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">cm</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]),</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<a id="__codelineno-1-259" name="__codelineno-1-259" href="#__codelineno-1-259"></a>    <span class="n">largest</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pair_counts</span><span class="p">)</span>
+<a id="__codelineno-1-260" name="__codelineno-1-260" href="#__codelineno-1-260"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"exercise3"</span><span class="p">][</span><span class="s2">"most_confused_pair"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">]</span>
+<a id="__codelineno-1-261" name="__codelineno-1-261" href="#__codelineno-1-261"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"exercise3"</span><span class="p">][</span><span class="s2">"pair_errors"</span><span class="p">]</span> <span class="o">=</span> <span class="n">largest</span>
+<a id="__codelineno-1-262" name="__codelineno-1-262" href="#__codelineno-1-262"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"runs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">runs</span>
+<a id="__codelineno-1-263" name="__codelineno-1-263" href="#__codelineno-1-263"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"means"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-1-264" name="__codelineno-1-264" href="#__codelineno-1-264"></a>    <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+<a id="__codelineno-1-265" name="__codelineno-1-265" href="#__codelineno-1-265"></a>        <span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">runs</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">"exercise"</span><span class="p">]</span> <span class="o">==</span> <span class="n">ex</span><span class="p">]</span>
+<a id="__codelineno-1-266" name="__codelineno-1-266" href="#__codelineno-1-266"></a>        <span class="n">results</span><span class="p">[</span><span class="s2">"means"</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">]))</span>
+<a id="__codelineno-1-267" name="__codelineno-1-267" href="#__codelineno-1-267"></a>                                      <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"test_accuracy"</span><span class="p">,</span> <span class="s2">"final_loss"</span><span class="p">,</span> <span class="s2">"train_accuracy"</span><span class="p">)}</span>
+<a id="__codelineno-1-268" name="__codelineno-1-268" href="#__codelineno-1-268"></a>        <span class="n">results</span><span class="p">[</span><span class="s2">"means"</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">)][</span><span class="s2">"test_std"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s2">"test_accuracy"</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">],</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-1-269" name="__codelineno-1-269" href="#__codelineno-1-269"></a>    <span class="n">results</span><span class="p">[</span><span class="s2">"mean_accuracy_difference_pp"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"means"</span><span class="p">][</span><span class="s2">"4"</span><span class="p">][</span><span class="s2">"test_accuracy"</span><span class="p">]</span> <span class="o">-</span> <span class="n">results</span><span class="p">[</span><span class="s2">"means"</span><span class="p">][</span><span class="s2">"3"</span><span class="p">][</span><span class="s2">"test_accuracy"</span><span class="p">])</span>
+<a id="__codelineno-1-270" name="__codelineno-1-270" href="#__codelineno-1-270"></a>    <span class="n">loss_figure</span><span class="p">(</span><span class="n">histories</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"Perda do MLP multiclasse"</span><span class="p">,</span> <span class="s2">"0, 1 e 2"</span><span class="p">)</span>
+<a id="__codelineno-1-271" name="__codelineno-1-271" href="#__codelineno-1-271"></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a id="__codelineno-1-272" name="__codelineno-1-272" href="#__codelineno-1-272"></a>    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"Blues"</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-1-273" name="__codelineno-1-273" href="#__codelineno-1-273"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<a id="__codelineno-1-274" name="__codelineno-1-274" href="#__codelineno-1-274"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<a id="__codelineno-1-275" name="__codelineno-1-275" href="#__codelineno-1-275"></a>            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+<a id="__codelineno-1-276" name="__codelineno-1-276" href="#__codelineno-1-276"></a>                    <span class="n">color</span><span class="o">=</span><span class="s2">"white"</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">"#182739"</span><span class="p">)</span>
+<a id="__codelineno-1-277" name="__codelineno-1-277" href="#__codelineno-1-277"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">yticks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Classe 0"</span><span class="p">,</span> <span class="s2">"Classe 1"</span><span class="p">,</span> <span class="s2">"Classe 2"</span><span class="p">],</span>
+<a id="__codelineno-1-278" name="__codelineno-1-278" href="#__codelineno-1-278"></a>           <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">"Classe 0"</span><span class="p">,</span> <span class="s2">"Classe 1"</span><span class="p">,</span> <span class="s2">"Classe 2"</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"Classe predita"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Classe verdadeira"</span><span class="p">,</span>
+<a id="__codelineno-1-279" name="__codelineno-1-279" href="#__codelineno-1-279"></a>           <span class="n">title</span><span class="o">=</span><span class="s2">"Figura 5 — Matriz de confusão: MLP 4–16–3"</span><span class="p">)</span>
+<a id="__codelineno-1-280" name="__codelineno-1-280" href="#__codelineno-1-280"></a>    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Número de observações"</span><span class="p">)</span>
+<a id="__codelineno-1-281" name="__codelineno-1-281" href="#__codelineno-1-281"></a>    <span class="n">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-1-282" name="__codelineno-1-282" href="#__codelineno-1-282"></a>    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<a id="__codelineno-1-283" name="__codelineno-1-283" href="#__codelineno-1-283"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histories</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">"1 camada oculta — classes 0, 1, 2"</span><span class="p">)</span>
+<a id="__codelineno-1-284" name="__codelineno-1-284" href="#__codelineno-1-284"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">histories</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">"2 camadas ocultas — classes 0, 1, 2"</span><span class="p">)</span>
+<a id="__codelineno-1-285" name="__codelineno-1-285" href="#__codelineno-1-285"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Figura 6 — Profundidade e perda de treino (semente 42)"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"Época (0 = inicial)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Entropia cruzada média"</span><span class="p">)</span>
+<a id="__codelineno-1-286" name="__codelineno-1-286" href="#__codelineno-1-286"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-287" name="__codelineno-1-287" href="#__codelineno-1-287"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">.2</span><span class="p">)</span>
+<a id="__codelineno-1-288" name="__codelineno-1-288" href="#__codelineno-1-288"></a>    <span class="n">save_figure</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<a id="__codelineno-1-289" name="__codelineno-1-289" href="#__codelineno-1-289"></a>    <span class="p">(</span><span class="n">ROOT</span> <span class="o">/</span> <span class="s2">"code"</span> <span class="o">/</span> <span class="s2">"results.json"</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+<a id="__codelineno-1-290" name="__codelineno-1-290" href="#__codelineno-1-290"></a>    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">ROOT</span> <span class="o">/</span> <span class="s2">"code"</span> <span class="o">/</span> <span class="s2">"seed_comparison.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-1-291" name="__codelineno-1-291" href="#__codelineno-1-291"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<a id="__codelineno-1-292" name="__codelineno-1-292" href="#__codelineno-1-292"></a>
+<a id="__codelineno-1-293" name="__codelineno-1-293" href="#__codelineno-1-293"></a>
+<a id="__codelineno-1-294" name="__codelineno-1-294" href="#__codelineno-1-294"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+<a id="__codelineno-1-295" name="__codelineno-1-295" href="#__codelineno-1-295"></a>    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+<p>A verificação por diferenças finitas centrais compara os gradientes analíticos de todos os parâmetros de três redes pequenas: binária, multiclasse e multiclasse com duas camadas ocultas. Os maiores erros absolutos foram, respectivamente, <strong>7.95 × 10⁻¹¹</strong>, <strong>1.27 × 10⁻¹⁰</strong> e <strong>1.08 × 10⁻¹⁰</strong>, abaixo da tolerância <span class="arithmatex">\(10^{-7}\)</span>. Essa conferência não participa da otimização e restaura o estado do gerador aleatório.</p>
+<h3 id="d-analysis">D — Analysis</h3>
+<p>A Figura 3 mostra a classe 1 em <strong>duas regiões externas, em lados opostos da faixa central atribuída à classe 0</strong>. Uma única reta divide o plano em dois semiplanos: não consegue colocar ambos os extremos na classe 1 e deixar o agrupamento central na classe 0. A camada oculta combina transformações não lineares e produz as duas transições necessárias.</p>
+<p>Há aproximadamente uma simetria entre os dois agrupamentos da classe 1. Assim, a direção linear que ajuda a classificar um extremo tende a prejudicar o outro, e a regressão logística encontra pouco sinal linear aproveitável. O valor de <strong>47,50%</strong> fica próximo dos 50% esperados de um palpite aleatório balanceado; estar ligeiramente abaixo de 50% nesta divisão é efeito da amostra e do ajuste, não uma lei segundo a qual todo classificador linear sempre teria desempenho inferior ao acaso.</p>
+<p>A MLP alcançou <strong>92,00%</strong>, ganho de <strong>44,50 pontos percentuais</strong>, porque reconhece a estrutura dos dois extremos. Os 16 erros restantes são compatíveis com a sobreposição das distribuições; o desvio 1.2 não produz agrupamentos perfeitamente separados. A figura sugere essa explicação geométrica, mas não demonstra que a rede atingiu o menor erro possível.</p>
+<h2 id="exercise-3">Exercise 3</h2>
+<h3 id="a-generate-the-data_1">A — Generate the data</h3>
+<p>O <code>make_classification</code> utiliza <strong>1.500 observações, quatro atributos informativos, zero redundantes, zero repetidos, três classes e dois agrupamentos por classe</strong>, <code>class_sep=1.0</code> e <code>random_state=42</code>. A divisão estratificada com a mesma semente produz <strong>1.200 observações de treino</strong> e <strong>300 de teste</strong>. As contagens de treino são 399, 399 e 402; no teste há 100 de cada classe. Os atributos são novamente padronizados exclusivamente com estatísticas do treino.</p>
+<h3 id="b-adapt-the-network">B — Adapt the network</h3>
+<p>A saída passa a ter três neurônios. As ativações ocultas continuam usando <code>tanh</code>, enquanto a saída usa softmax e a perda passa a ser a entropia cruzada categórica. O construtor recebe <code>output="multiclass"</code>; o mesmo código de propagação, retropropagação e atualização é reutilizado integralmente.</p>
+<p>Para uma observação, com logits <span class="arithmatex">\(u_j\)</span>, alvo one-hot <span class="arithmatex">\(y_j\)</span> e probabilidades <span class="arithmatex">\(p_j\)</span>:</p>
+<div class="arithmatex">\[
+p_j=\frac{e^{u_j}}{\sum_k e^{u_k}},\qquad
+\ell=-\sum_j y_j\log p_j.
+\]</div>
+<p>A derivada da softmax é:</p>
+<div class="arithmatex">\[
+\frac{\partial p_j}{\partial u_k}=p_j(\mathbf 1_{j=k}-p_k).
+\]</div>
+<p>Aplicando a regra da cadeia:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\frac{\partial\ell}{\partial u_k}
+&amp;=\sum_j\frac{\partial\ell}{\partial p_j}\frac{\partial p_j}{\partial u_k}\\
+&amp;=\sum_j\left(-\frac{y_j}{p_j}\right)p_j(\mathbf 1_{j=k}-p_k)\\
+&amp;=-y_k+p_k\sum_j y_j\\
+&amp;=\boxed{p_k-y_k},
+\end{aligned}
+\]</div>
+<p>pois <span class="arithmatex">\(\sum_jy_j=1\)</span>. Para a média do lote, <strong><span class="arithmatex">\(\partial\mathcal L/\partial U=(P-Y)/N\)</span></strong>. Esse resultado é idêntico, em forma matricial, ao delta binário do Exercício 2; muda somente a dimensão. Os demais gradientes seguem as mesmas equações.</p>
+<p>A softmax subtrai o maior logit de cada observação antes da exponenciação. A perda usa log-probabilidades calculadas por essa forma estável, evitando logaritmos de probabilidades arredondadas a zero.</p>
+<h3 id="c-train-and-evaluate">C — Train and evaluate</h3>
+<p>A arquitetura é <strong>4 → 16 → 3</strong>, uma camada oculta com 16 neurônios e <strong>131 parâmetros</strong>:</p>
+<div class="arithmatex">\[
+(4\cdot16+16)+(16\cdot3+3)=80+51=131.
+\]</div>
+<p>Foram usadas <strong>3.000 épocas, taxa 0.1, lote completo de 1.200 observações, Xavier uniforme, vieses zero e semente 42</strong>. Não houve seleção de hiperparâmetros com base no teste. A acurácia no teste foi <strong>84,00% (252/300)</strong> e no treino <strong>87,50%</strong>. A perda média de treino caiu de <strong>1.21797293</strong> para <strong>0.32272105</strong>.</p>
+<p><img alt="Figura 4 — Perda de treino da MLP com três classes." src="figures/fig4.svg" /></p>
+<p><img alt="Figura 5 — Matriz de confusão no teste, com linhas reais e colunas preditas." src="figures/fig5.svg" /></p>
+<h3 id="d-analysis_1">D — Analysis</h3>
+<p>O par mais confundido é <strong>classes 0 e 1</strong>, com <strong>19 erros cruzados</strong>: seis observações da classe 0 classificadas como 1, e 13 da classe 1 classificadas como 0. Os pares 0–2 e 1–2 somam, respectivamente, <strong>14</strong> e <strong>15</strong> erros. No total ocorreram 48 erros entre 300 observações.</p>
+<p>Cada classe reúne dois agrupamentos, portanto existe uma mistura de <strong>seis agrupamentos em quatro dimensões</strong>. Uma classe pode ocupar mais de uma região, e agrupamentos de classes diferentes podem se sobrepor ou exigir fronteiras distintas em diferentes partes do espaço. A MLP consegue combinar os quatro atributos para construir essas separações. A maior confusão entre 0 e 1 é consistente com regiões menos separáveis para essas classes, mas a matriz isoladamente não identifica quais agrupamentos se sobrepõem nem comprova a causa de cada erro.</p>
+<p>O baseline de regressão logística no mesmo treino/teste obteve <strong>66,33% (199/300)</strong>, frente aos <strong>84,00%</strong> da MLP: ganho de <strong>17,67 pontos percentuais</strong>, ou 53 classificações corretas adicionais. A camada oculta acrescentou fronteiras não lineares e interações entre atributos, enquanto a regressão logística utiliza escores lineares e fronteiras lineares entre pares de classes.</p>
+<h2 id="exercise-4">Exercise 4</h2>
+<h3 id="a-train-the-deeper-network">A — Train the deeper network</h3>
+<p>Foi adicionada uma segunda camada oculta com a mesma largura: <strong>4 → 16 → 16 → 3</strong>, com <strong>403 parâmetros</strong>:</p>
+<div class="arithmatex">\[
+(4\cdot16+16)+(16\cdot16+16)+(16\cdot3+3)=80+272+51=403.
+\]</div>
+<p>Dados, divisão, padronização, ativação, método de inicialização, taxa <strong>0.1</strong>, lote completo e <strong>3.000 épocas</strong> são os mesmos do Exercício 3. Cada par de redes começa com a mesma semente. Como as primeiras camadas têm dimensões iguais e recebem os primeiros sorteios, seus pesos iniciais são iguais dentro de cada par. As camadas seguintes não podem ser todas iguais, pois a arquitetura mudou.</p>
+<p>Com a semente 42, a rede profunda obteve <strong>86,33% no teste (259/300)</strong>, <strong>90,33% no treino</strong> e perda final <strong>0.26108074</strong>. A única mudança de configuração do modelo foi adicionar a camada; o aumento de parâmetros e do custo por época é consequência dessa mudança.</p>
+<h3 id="b-compare">B — Compare</h3>
+<p>A Figura 6 compara as duas curvas para a semente principal 42:</p>
+<p><img alt="Figura 6 — Perdas das redes com uma e duas camadas ocultas." src="figures/fig6.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>Modelo — semente 42</th>
+<th style="text-align: right;">Camadas ocultas</th>
+<th style="text-align: right;">Parâmetros</th>
+<th style="text-align: right;">Perda final de treino</th>
+<th style="text-align: right;">Acurácia de teste</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exercise 3 — 4 → 16 → 3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">0.32272105</td>
+<td style="text-align: right;">84,00%</td>
+</tr>
+<tr>
+<td>Exercise 4 — 4 → 16 → 16 → 3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">403</td>
+<td style="text-align: right;">0.26108074</td>
+<td style="text-align: right;">86,33%</td>
+</tr>
+</tbody>
+</table>
+<p>Para não depender de uma inicialização, foram executados os dois modelos com <strong>42, 43 e 44</strong>, sem mudar os dados ou os hiperparâmetros:</p>
+<table>
+<thead>
+<tr>
+<th>Semente</th>
+<th style="text-align: right;">Perda final — 1 camada</th>
+<th style="text-align: right;">Perda final — 2 camadas</th>
+<th style="text-align: right;">Acurácia — 1 camada</th>
+<th style="text-align: right;">Acurácia — 2 camadas</th>
+<th style="text-align: right;">Diferença (2 − 1)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>42</td>
+<td style="text-align: right;">0.32272105</td>
+<td style="text-align: right;">0.26108074</td>
+<td style="text-align: right;">84,00%</td>
+<td style="text-align: right;">86,33%</td>
+<td style="text-align: right;">+2,33 p.p.</td>
+</tr>
+<tr>
+<td>43</td>
+<td style="text-align: right;">0.32426111</td>
+<td style="text-align: right;">0.26420648</td>
+<td style="text-align: right;">84,67%</td>
+<td style="text-align: right;">85,33%</td>
+<td style="text-align: right;">+0,67 p.p.</td>
+</tr>
+<tr>
+<td>44</td>
+<td style="text-align: right;">0.32675350</td>
+<td style="text-align: right;">0.25246729</td>
+<td style="text-align: right;">84,00%</td>
+<td style="text-align: right;">86,33%</td>
+<td style="text-align: right;">+2,33 p.p.</td>
+</tr>
+<tr>
+<td><strong>Média</strong></td>
+<td style="text-align: right;"><strong>0.32457856</strong></td>
+<td style="text-align: right;"><strong>0.25925151</strong></td>
+<td style="text-align: right;"><strong>84,22%</strong></td>
+<td style="text-align: right;"><strong>86,00%</strong></td>
+<td style="text-align: right;"><strong>+1,78 p.p.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>O desvio-padrão amostral das acurácias entre sementes foi <strong>0,38 p.p.</strong> na rede menor e <strong>0,58 p.p.</strong> na maior. A acurácia média de treino foi, respectivamente, <strong>88,00%</strong> e <strong>90,75%</strong>. O orçamento foi igual em épocas e atualizações; não em tempo ou operações, já que a rede maior exige mais cálculo por atualização.</p>
+<h3 id="c-analysis">C — Analysis</h3>
+<p><strong>Nesta execução, a segunda camada ajudou de forma modesta:</strong> o ganho médio foi <strong>1,78 ponto percentual</strong>, com melhora nas três sementes. A perda média de treino também caiu, de <strong>0.32457856 para 0.25925151</strong>. Portanto, a redução da perda veio acompanhada de algum ganho no teste. O resultado difere da expectativa mais frequente mencionada no enunciado, mas decorre desta configuração fixa; os parâmetros não foram retocados para fazer a rede profunda vencer.</p>
+<p>A rede passou de <strong>131 para 403 parâmetros</strong>, aproximadamente <strong>3,08 vezes</strong> o tamanho, para esse ganho relativamente pequeno. Uma única camada já representa razoavelmente a separação de seis agrupamentos em quatro atributos. A segunda camada pode recombinar as representações aprendidas pela primeira e ajustar regiões mais complexas, mas também introduz mais parâmetros, mais etapas na propagação dos gradientes e maior dificuldade potencial de otimização. Com <code>tanh</code>, saturação pode reduzir os gradientes; uma arquitetura mais profunda não garante um ajuste melhor em qualquer orçamento.</p>
+<p>A diferença média entre acurácia de treino e teste passou de <strong>3,78 p.p. para 4,75 p.p.</strong>, compatível com uma capacidade maior de ajustar o treino. Isso não prova sobreajuste prejudicial, porque o teste também melhorou. Três inicializações sobre uma única divisão medem sensibilidade à inicialização, não a incerteza sobre novas amostras: o ganho observado não estabelece uma superioridade universal nem significância estatística.</p>
+<p>Profundidade tende a ser mais útil quando o problema exige <strong>composição de características</strong>, como combinar bordas em partes e partes em objetos, ou quando existem muitas regiões e interações hierárquicas. Aqui, a rede rasa já captura a maior parte da estrutura, e o benefício adicional deve ser comparado ao custo de treinamento e ao aumento da capacidade.</p>
+<h2 id="results-summary">Results summary</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">#</th>
+<th>Quantidade</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Ex. 1 — <span class="arithmatex">\(z^{(1)}\)</span> e <span class="arithmatex">\(h^{(1)}\)</span></td>
+<td><span class="arithmatex">\(z^{(1)}=[0.27000000,-0.18000000]\)</span>; <span class="arithmatex">\(h^{(1)}=[0.26362484,-0.17808087]\)</span></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Ex. 1 — <span class="arithmatex">\(u^{(2)}\)</span>, <span class="arithmatex">\(\hat y\)</span> e <span class="arithmatex">\(L\)</span></td>
+<td><span class="arithmatex">\(u^{(2)}=0.38523668\)</span>; <span class="arithmatex">\(\hat y=0.36724656\)</span>; <span class="arithmatex">\(L=0.40037691\)</span></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>Ex. 1 — parâmetros atualizados (nove escalares)</td>
+<td><span class="arithmatex">\(W^{(1)}=[[0.37640546,-0.13056219],[0.15229515,0.41908194]]\)</span>; <span class="arithmatex">\(b^{(1)}=[0.25281093,-0.29540971]\)</span>; <span class="arithmatex">\(W^{(2)}=[0.58658715,-0.35849037]\)</span>; <span class="arithmatex">\(b^{(2)}=0.52844837\)</span></td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>Ex. 2 — acurácia do baseline linear</td>
+<td><strong>47,50%</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>Ex. 2 — arquitetura e acurácia de teste</td>
+<td><strong>2 → 8 → 1; 92,00%</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>Ex. 3 — arquitetura e acurácia de teste</td>
+<td><strong>4 → 16 → 3; 84,00%</strong>, semente 42</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>Ex. 3 — par mais confundido</td>
+<td><strong>Classes 0 e 1: 19 erros cruzados (6 + 13)</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>Ex. 4 — arquitetura e acurácia de teste</td>
+<td><strong>4 → 16 → 16 → 3; 86,33%</strong>, semente 42</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Ex. 4 — diferença média de acurácia em relação ao Ex. 3</td>
+<td><strong>+1,78 p.p.</strong>; médias de <strong>86,00% − 84,22%</strong>, sementes 42, 43 e 44</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
