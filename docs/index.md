@@ -12,6 +12,11 @@ atividades da disciplina.
 
 - [Exercício 1 — Dados](exercises/data/index.md)
 - [Exercício 2 — Perceptron](exercises/perceptron/index.md)
+- [Exercício 3 — MLP](exercises/mlp/index.md)
 
 O Exercício 2 inclui a implementação do perceptron do zero, seis figuras e a
 análise dos casos separável e não separável.
+
+O Exercício 3 apresenta backpropagation passo a passo, uma MLP implementada em
+NumPy, classificação binária e multiclasse e a comparação de profundidade com
+três sementes.

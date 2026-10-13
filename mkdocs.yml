@@ -49,3 +49,4 @@ nav:
   - Exercícios:
       - 1. Dados: exercises/data/index.md
       - 2. Perceptron: exercises/perceptron/index.md
+      - 3. MLP: exercises/mlp/index.md
